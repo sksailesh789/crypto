@@ -52,7 +52,7 @@ export default function ExchangeDialog(props) {
         <DialogContent>
         <select value={selectedOption} onChange={handleOptionChange} className='exchange_select'> 
             <option value=''>please select </option>
-            {props.all.data.map(each => (
+            {props.all.data.data.map(each => (
                 <option key={each._id} value={each._id}>
                   {each.name}
                 </option>

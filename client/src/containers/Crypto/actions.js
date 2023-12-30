@@ -104,3 +104,11 @@ export const loadOneRequest = payload => ({
     type: types.EXCHANGE_ONE_FAILURE,
     payload,
   });
+  export const setQueryValue = payload => ({
+    type: types.SET_QUERY_VALUE,
+    payload,
+  });
+  export const clearQuery = payload => ({
+    type: types.CLEAR_QUERY,
+    payload,
+  });

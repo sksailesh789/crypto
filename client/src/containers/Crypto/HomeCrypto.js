@@ -64,28 +64,23 @@ export const HomeCrypto = props => {
     setOpen(false);
   };
 
-  const cryptolist = all.data.map(
+  const cryptolist = all.data.data.map(
     (each) => {
       return(
-        <div className='crypto_wrap flex justify-between items-center'>
+        <div className='crypto_wrap flex justify-between items-center' key={each._id}>
           <div className="image_wrap">
               <img className="img-fluid" src={`${IMAGE_BASE}${each.image[0].path}`} />
           </div>
           <div className='crypto_name'>{each.name}</div>
           <button onClick={() => showBuyDialog(each)}>Buy</button>
         </div>
-        // <>
-        //     <div>
-        //         {<img className="img-fluid"src={`${IMAGE_BASE}${each.image[0].path}`}/>}
-        //     </div>
-        //     <div>{each.name}</div>
-        //     <div onClick={() => showBuyDialog(each)}>Buy</div>
-        // </>
+       
     )}
   );
 
   return (
-    <>
+    <div className='home_wrap'>
+      <div className='container'>
       <BuyDialog
         open={open}
         name={name}
@@ -99,7 +94,8 @@ export const HomeCrypto = props => {
         
       </div>
       {cryptolist}
-    </>
+    </div>
+    </div>
   );
 };
 

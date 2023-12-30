@@ -76,8 +76,8 @@ const navigate = useNavigate();
 
     const onDrop = async (files, name) => {
   
-      props.setOneValue({
-        key: [name],
+      setOneValue({
+        key: name,
         value: files,
       });
   
@@ -101,14 +101,14 @@ const navigate = useNavigate();
 
 
     useEffect(() => {
-      if(one.image && one.image.length > 0){
+      if(id && one.image && one.image.length > 0){
         const images = [];
         for (const image of one.image) {
           images.push(`${IMAGE_BASE}${image.path}`);
         }
         setDroppedImages(images);
       }
-    }, [one]);
+    }, [id,one]);
 
     return loading && loading == true ? (
       <Loading />

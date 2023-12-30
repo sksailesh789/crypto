@@ -13,23 +13,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// import { ConnectedRouter } from 'connected-react-router';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-// import history from './utils/history';
-// Import Language Provider
-// import LanguageProvider from './containers/LanguageProvider';
+
 // Import root app
 import Apps from './containers/App';
 import configureStore from './configureStore';
 import {  setToken,setUser } from './containers/App/actions';
 
 import './styles.css';
-
-// Import i18n messages
-// import { translationMessages } from './i18n';
 
 // Create redux store with history
 const initialState = {};
@@ -85,13 +78,9 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme} >
-        {/* <Router> */}
-          {/* <ConnectedRouter history={history}> */}
           <SnackbarProvider maxSnack={3} className="mb-8 lg:mb-0">
             <Apps/>
         </SnackbarProvider>
-          {/* </ConnectedRouter> */}
-          {/* </Router> */}
           </ThemeProvider>
     </Provider>
   );

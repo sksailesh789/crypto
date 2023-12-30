@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
-// import { compose } from 'redux';
 import Collapse from '@mui/material/Collapse';
 import menus from './sideMenu';
-
-// import {
-//   makeSelectLocation,
-//   makeSelectAccess,
-// } from '../../../containers/App/selectors';
 
 
 const MainListItem = () => {
@@ -20,7 +11,6 @@ const MainListItem = () => {
     setOpenSet({ ...openSet, [key]: !openSet[key] });
   };
 
-//   const hasAccess = link => Object.keys(access).includes(link);
 
   const menuFunction = e => {
     let showChildren = false;
@@ -97,16 +87,5 @@ const MainListItem = () => {
 };
 
 
-// const mapStateToProps = createStructuredSelector({
-//   location: makeSelectLocation(),
-//   access: makeSelectAccess(),
-// });
-
-// const withConnect = connect(mapStateToProps);
-// const withStyle = withStyles(styles);
 
 export default MainListItem
-//  compose(
-//   withConnect,
-// //   withStyle,
-// )(MainListItem);

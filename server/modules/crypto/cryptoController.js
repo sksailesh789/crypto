@@ -18,9 +18,9 @@ cryptoController.getCrypto = async (req, res, next) => {
         },
       ];
       let data = await otherHelper.getQuerySendResponse(cryptoSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-      return res.status(httpStatus.OK).json(data);
+      // return res.status(httpStatus.OK).json(data);
       
-      // return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data, 'Crypto Get Success', page, size, data.totaldata,sortQuery);
+      return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data, 'Crypto Get Success', page, size, data.totaldata,sortQuery);
     } catch (err) {
       next(err);
     }

@@ -54,3 +54,9 @@ export const makeSelectName = () =>
     selectDomain,
     state => state.totalPoints,
   );
+
+  export const makeSelectQuery = () =>
+  createSelector(
+    selectDomain,
+    substate => substate.query,
+  );

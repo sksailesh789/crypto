@@ -34,3 +34,5 @@ export const GET_CRYPTO_FAILURE = 'app/Crypto/GET_CRYPTO_FAILURE'
 export const EXCHANGE_ONE_REQUEST = 'app/Crypto/EXCHANGE_ONE_REQUEST'
 export const EXCHANGE_ONE_SUCCESS = 'app/Crypto/EXCHANGE_ONE_SUCCESS'
 export const EXCHANGE_ONE_FAILURE = 'app/Crypto/EXCHANGE_ONE_FAILURE'
+export const SET_QUERY_VALUE = 'app/Brand/SET_QUERY_VALUE';
+export const CLEAR_QUERY = 'app/Brand/CLEAR_QUERY';

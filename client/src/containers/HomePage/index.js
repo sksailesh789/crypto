@@ -1,6 +1,6 @@
 /**
  *
- * Brand
+ * Crypto
  *
  */
 
@@ -77,7 +77,7 @@ export const Home= props => {
   const cryptolists = cryptoList && cryptoList.map(
     (each) => {
       return(
-        <div className='crypto_wrap flex justify-between items-center'>
+        <div className='crypto_wrap flex justify-between items-center' key={each.crypto._id}>
           <div className="image_wrap">
               <img className="img-fluid" src={`${IMAGE_BASE}${each.crypto.image[0].path}`} />
           </div>
@@ -85,64 +85,45 @@ export const Home= props => {
           <div className='crypto_Point'>{each.point}</div>
           <button onClick={() => showExchangeDialog(each)}>Exchange</button>
         </div>
-        // <div className='flex justify-between'>
-        //     <div>
-        //         {<img className="img-fluid"src={`${IMAGE_BASE}${each.crypto.image[0].path}`}/>}
-        //     </div>
-        //     <div>{each.crypto.name}</div>
-        //     <div>{each.point}</div>
-        //     <div onClick={() => showExchangeDialog(each)}>Exchange</div>
-        // </div>
     )}
   );
 
   return (
-    <>
-      <ExchangeDialog
-        open={open}
-        name={name}
-        doClose={handleClose}
-        doExchange={  handleExchange}
-        points = {handleChildInputChange}
-        all={all}
-        selectedOption={handleSelectedOptionChange}
-      />
-      
-      <div className="flex justify-between mt-3 mb-3">
-        {loading && loading == true ? <Loading /> : <></>}
+    <div className='home_wrap'>
+      <div className='container'>
+        <ExchangeDialog
+          open={open}
+          name={name}
+          doClose={handleClose}
+          doExchange={  handleExchange}
+          points = {handleChildInputChange}
+          all={all}
+          selectedOption={handleSelectedOptionChange}
+        />
         
-      </div>
-      <div className="home_point">
-        <div className="flex justify-between">
-          <div className="crypto_type">
-            <p>Number of Crypto Coins Type</p>
-            <p className='text-center'>{cryptoList.length}</p>
-          </div>
-          <div className="crypto_type">
-            <p>Total Number of Crypto Coins </p>
-            <p  className='text-center'>{totalpoint}</p>
+        <div className="flex justify-between ">
+          {loading && loading == true ? <Loading /> : <></>}
+          
+        </div>
+        <div className="home_point mt-4">
+          <div className="flex justify-between">
+            <div className="crypto_type">
+              <p>Number of Crypto Coins Type</p>
+              <p className='text-center'>{cryptoList.length}</p>
+            </div>
+            <div className="crypto_type">
+              <p>Total Number of Crypto Coins </p>
+              <p  className='text-center'>{totalpoint}</p>
+            </div>
           </div>
         </div>
+        {cryptoList ? cryptolists : 'no crypto in your wallet'}
       </div>
-      {cryptoList ? cryptolists : 'no crypto in your wallet'}
-    </>
+    </div>
   );
 };
 
 
-
-// Brand.propTypes = {
-//   loadAllRequest: PropTypes.func.isRequired,
-//   all: PropTypes.shape({
-//     data: PropTypes.shape({
-//       data: PropTypes.array.isRequired,
-//     }),
-//     page: PropTypes.number.isRequired,
-//     size: PropTypes.number.isRequired,
-//     totaldata: PropTypes.number.isRequired,
-//   }),
-//   deleteOneRequest: PropTypes.func.isRequired,
-// };
 
 const mapStateToProps = createStructuredSelector({
   cryptoList: makeSelectCryptoList(),

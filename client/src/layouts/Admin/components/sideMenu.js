@@ -2,9 +2,9 @@
 const menu = [
     {
       key: '1',
-      name: 'Crypto Dashboard',
+      name: 'Home',
       icon: 'dashboard',
-      link: '/admin/dashboard',
+      link: '/',
     },
     {
       key: '2',

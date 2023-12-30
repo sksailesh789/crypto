@@ -10,13 +10,12 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import {useNavigate} from 'react-router-dom'
 import {IMAGE_BASE} from '../App/constants.js'
-// import withStyles from '@material-ui/core/styles/withStyles';
-// import AddIcon from '@mui/icons-material/Add';
+import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
-// import Fab from '@mui/material/Fab';
+import Fab from '@mui/material/Fab';
 import { useInjectSaga } from '../../utils/injectSaga';
 import { useInjectReducer } from '../../utils/injectReducer';
-import { makeSelectAll, makeSelectLoading } from './selectors';
+import { makeSelectAll, makeSelectLoading,makeSelectQuery } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import * as mapDispatchToProps from './actions';
@@ -30,10 +29,19 @@ const key = 'crypto';
 
 export const Crypto = props => {
   const {
-    all,
+    all: {
+      data: { data },
+      page,
+      size,
+      totaldata,
+      sort,
+    },
     loadAllRequest,
     deleteOneRequest,
     clearOne,
+    clearQuery,
+    setQueryValue,
+    query,
     loading,
   } = props;
 
@@ -44,11 +52,23 @@ export const Crypto = props => {
 
   const [open, setOpen] = useState(false);
   const [deletedId, setDeletedID] = useState('');
+  const [cleared, setCleared] = useState(false);
 
-  
   useEffect(() => {
-    loadAllRequest();
+    clearQuery();
+    setCleared(true);
   }, []);
+
+  useEffect(() => {
+    if (cleared) {
+      setCleared(false);
+      loadAllRequest(query);
+    }
+  }, [cleared]);
+ 
+  useEffect(() => {
+    loadAllRequest(query);
+  }, [ query.page, query.size]);
 
 
   const handleEdit = id => {
@@ -58,6 +78,11 @@ export const Crypto = props => {
   const handleOpen = id => {
     setOpen(true);
     setDeletedID(id);
+  };
+
+  const handlePagination = ({ page, size }) => {
+    setQueryValue({ key: 'page', value: page });
+    setQueryValue({ key: 'size', value: size });
   };
 
   const handleClose = () => {
@@ -74,12 +99,17 @@ export const Crypto = props => {
     navigate('/admin/crypto-manage/add');
   };
 
-  
+  const handleQueryChange = e => {
+    e.persist();
+    setQueryValue({ key: e.target.name, value: e.target.value });
+  };
 
 
 
 
-  const tableData = all.data.map(
+  const tablePagination = { page, size, totaldata };
+
+  const tableData = data.map(
     (each) => {
       return([
       each.name,
@@ -124,18 +154,15 @@ export const Crypto = props => {
       <div className="flex justify-between mt-3 mb-3">
         {loading && loading == true ? <Loading /> : <></>}
         <PageHeader>Crypto Manage</PageHeader>
-        {/* <Fab
+        <Fab
           color="primary"
           aria-label="Add"
-          className={classes.fab}
           round="true"
           onClick={handleAdd}
           elevation={0}
         >
           <AddIcon />
-        </Fab> */}
-        <p onClick={handleAdd} className='text-lg'
-        >Add</p>
+        </Fab>
       </div>
       <PageContent loading={loading}>
         
@@ -143,7 +170,6 @@ export const Crypto = props => {
           tableHead={[
             <span
               className="cursor-pointer flex items-center justify-between"
-              // onClick={() => handleSortChange('title')}
             >
               Name
             </span>,
@@ -155,8 +181,8 @@ export const Crypto = props => {
             <div className="text-center">Action</div>,
           ]}
           tableData={tableData}
-          // pagination={tablePagination}
-          // handlePagination={handlePagination}
+          pagination={tablePagination}
+          handlePagination={handlePagination}
           emptyDataMsg="No Crypto Found"
           isSN
           ispublic
@@ -168,25 +194,15 @@ export const Crypto = props => {
 
 
 
-// Brand.propTypes = {
-//   loadAllRequest: PropTypes.func.isRequired,
-//   all: PropTypes.shape({
-//     data: PropTypes.shape({
-//       data: PropTypes.array.isRequired,
-//     }),
-//     page: PropTypes.number.isRequired,
-//     size: PropTypes.number.isRequired,
-//     totaldata: PropTypes.number.isRequired,
-//   }),
-//   deleteOneRequest: PropTypes.func.isRequired,
-// };
+
 
 const mapStateToProps = createStructuredSelector({
   all: makeSelectAll(),
   loading: makeSelectLoading(),
+  query: makeSelectQuery(),
+
 });
 
-// const withStyle = withStyles(styles);
 
 const withConnect = connect(
   mapStateToProps,
@@ -195,5 +211,4 @@ const withConnect = connect(
 
 export default compose(
   withConnect,
-//   withStyle,
 )(Crypto);

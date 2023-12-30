@@ -8,14 +8,18 @@ import * as types from './constants';
 
 export const initialState = {
   all: {
-    data: [],
-    msg: '',
+    data: { data: [] },
+    page: 1,
+    size: 10,
+    totaldata: 0,
+    sort: {},
   },
   one: {
       name: '',
       image: [],
   },
   loading: false,
+  query: { find_title: '', size: 10 },
   errors: { name: '', image: '' },
   cryptoList: [],
   totalPoints: ''
@@ -34,9 +38,9 @@ const cryptoReducer = (state = initialState, action) =>
         case types.ADD_EDIT_FAILURE:
             draft.errors = { ...draft.errors, ...action.payload.errors };
             break;
-      // case types.ADD_EDIT_FAILURE:
-      //   draft.errors = action.payload.errors;
-      //   break;
+      case types.ADD_EDIT_SUCCESS:
+        draft.one = initialState.one;
+        break;
       case types.CLEAR_ERRORS:
         draft.errors = initialState.errors;
         break;
@@ -85,6 +89,9 @@ const cryptoReducer = (state = initialState, action) =>
             },
           };
           break;
+          case types.SET_QUERY_VALUE:
+            draft.query[action.payload.key] = action.payload.value;
+            break;
     }
   });
 

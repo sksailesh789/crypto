@@ -1,4 +1,4 @@
-import React,{useState,Fragment} from 'react'
+import React,{useRef,useState,useEffect,Fragment} from 'react'
 import {  NavLink,Link } from 'react-router-dom';
 import { useDispatch,useSelector } from "react-redux";
 import {useNavigate} from 'react-router-dom'
@@ -11,10 +11,10 @@ import { logoutRequest } from '../../../containers/App/actions';
 const Header = () => {
 
   const [userAccOpen , setUserAccOpen] = useState(false)
-  const [isAuthenticated , setIsAuthenticated] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const divRef = useRef(null);
 
   const isAuth = useSelector(makeSelectIsAuthenticated());
 
@@ -22,22 +22,26 @@ const Header = () => {
     setUserAccOpen(!userAccOpen)
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        
+        setUserAccOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [divRef]);
+
   const handleLogout = () => {
     dispatch(logoutRequest())
     return navigate('/login');
   };
   return (
-    // <div>
-    //     <ul>
-    //         <li >XYZ</li>
-    //         <li><Link to="/">Home </Link></li>
-    //         <li><Link to="/crypto">Cryptos </Link></li>
-    //         {/* <li><Link to="/crypto">login/register </Link></li>
-    //         <li><Link to="/login">login </Link></li>
-    //         <li><Link to="/register">register </Link></li> */}
-
-    //     </ul>
-    // </div>
     <div className="bg-blue-500 py-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-white text-lg font-semibold">XYZ</h1>
@@ -48,12 +52,13 @@ const Header = () => {
             // <p>user</p>
                   <Fragment>
                     
-                    <li 
+                    <li
+                     ref={divRef} 
                     onClick={switchUserAcc}
                     className = "userHeader" >
                       <Person />
                         
-                      {userAccOpen ? 
+                      {/* {userAccOpen ? 
                           <div className= "user-account">
                             <dl>
                               {isAuth ? 
@@ -64,7 +69,36 @@ const Header = () => {
                               </dt>
                             </dl>
                         </div> : ''
-                    }
+                    } */}
+                    {userAccOpen ? (
+                      <div className="user-account bg-white border rounded shadow mt-2">
+                        <dl className="divide-y divide-gray-200">
+                          {isAuth ? (
+                            <dt className="p-2">
+                              <Link
+                                to="/admin/dashboard"
+                                className="text-blue-500 hover:underline"
+                              >
+                                Dashboard
+                              </Link>
+                            </dt>
+                          ) : (
+                            ''
+                          )}
+                          <dt className="p-2">
+                            <p
+                              onClick={handleLogout}
+                              className="text-red-500 cursor-pointer hover:underline"
+                            >
+                              Log Out
+                            </p>
+                          </dt>
+                        </dl>
+                      </div>
+                        ) : (
+                          ''
+                        )}
+
                       
                     </li>
                   </Fragment>
@@ -78,7 +112,6 @@ const Header = () => {
                     </li>
                   </Fragment>
                 )}
-          {/* Add more navigation items as needed */}
         </ul>
       </div>
     </div>

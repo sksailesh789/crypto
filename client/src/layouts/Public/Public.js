@@ -4,7 +4,7 @@ import {  Routes, Route,Link } from 'react-router-dom';
 
 import routes from '../../routes/public';
 
-// import NotFoundPage from '../../containers/NotFoundPage/Loadable';
+import NotFoundPage from '../../containers/NotFoundPage';
 import Header from './components/Header';
 
 const switchRoutes = (
@@ -12,7 +12,7 @@ const switchRoutes = (
     {routes.map(prop => (
       <Route key={prop.path} {...prop} />
     ))}
-    {/* <Route element={<NotFoundPage/>} /> */}
+    <Route element={<NotFoundPage/>} />
     
    </Routes>
 );

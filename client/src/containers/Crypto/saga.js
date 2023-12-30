@@ -19,9 +19,16 @@ import {
   
   function* loadAll(action) {
     const token = yield select(makeSelectToken());
+    let query = '';
+    if (action.payload) {
+      Object.keys(action.payload).map(each => {
+        query = `${query}&${each}=${action.payload[each]}`;
+        return null;
+      });
+    }
     yield call(
         Api.get(
-          `crypto/allcrypto`,
+          `crypto/allcrypto?${query}`,
           actions.loadAllSuccess,
           actions.loadAllFailure,
           token,
@@ -106,7 +113,7 @@ import {
         variant: 'warning',
       },
     };
-    yield put(enqueueSnackbar(snackbarData));
+    enqueueSnackbar(snackbarData.message,{variant:'success'})
   }
   
   function* addEditSuccessFunc(action) {
@@ -116,7 +123,7 @@ import {
         variant: 'success',
       },
     };
-    yield put(enqueueSnackbar(snackbarData));
+    enqueueSnackbar(snackbarData.message,{variant:'success'})
   }
   
   function* deleteCrypto(action) {
@@ -143,7 +150,7 @@ import {
       },
     };
     enqueueSnackbar(snackbarData.message,{variant:'success'})
-
+    
   }
   
   function* deleteFailureFunc(action) {
