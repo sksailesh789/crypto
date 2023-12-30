@@ -6,7 +6,6 @@ const userSchema = new schema({
   name: {type:String},
   email: { type: String },
   password: { type: String },
-  //Media
   cryptoList: [
     {
       crypto: { type: schema.Types.ObjectId, ref: 'crypto' },

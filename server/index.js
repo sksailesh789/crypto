@@ -5,9 +5,9 @@
 require('dotenv').config();
 const http = require('http');
 const app = require('./app');
-const port = process.env.PORT || 5300;
-const env = process.env.ENV || 'Development';
-const app_name = process.env.APP_NAME || 'Crypto';
+const port =  5300;
+const env =  'Development';
+const app_name =  'Crypto';
 const server = http.createServer(app);
 
 app.set('PORT_NUMBER', port);

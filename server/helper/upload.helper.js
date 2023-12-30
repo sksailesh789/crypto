@@ -16,8 +16,7 @@ const ensureFolderExists = async (path) => {
     const storage = multer.diskStorage({
       destination: async (req, file, cb) => {
         const uploadPath = filePath;
-        console.log(uploadPath,filePath,'uppp')
-        console.log(cb,'cbbb')
+        
 
         try {
           const folderStat = await ensureFolderExists(uploadPath);

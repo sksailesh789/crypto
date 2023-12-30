@@ -18,7 +18,7 @@ cryptoController.getCrypto = async (req, res, next) => {
         },
       ];
       let data = await otherHelper.getQuerySendResponse(cryptoSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-      // return res.status(httpStatus.OK).json(data);
+      
       
       return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data, 'Crypto Get Success', page, size, data.totaldata,sortQuery);
     } catch (err) {
@@ -29,17 +29,6 @@ cryptoController.getCrypto = async (req, res, next) => {
   cryptoController.addCrypto = async (req, res, next) => {
     try {
       const crypto = req.body;
-  console.log(req.files,'rfff')
-  // if (req.files && req.files.length > 0) {
-  //   // Handle multiple files
-  //   crypto.image = req.files.map((file) => ({
-  //     destination: file.destination
-  //       .split('\\')
-  //       .join('/')
-  //       .split('server/')[1] + '/',
-  //     path: file.path.split('\\').join('/').split('server/')[1],
-  //   }));
-  // }
       if (req.files && req.files.length > 0) {
         const media = req.files;
         media.map((file) => {

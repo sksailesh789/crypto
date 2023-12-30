@@ -156,10 +156,7 @@ const SignupUserPage = ({
   );
 };
 
-// SignupUserPage.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   signupRequest: PropTypes.func.isRequired,
-// };
+
 
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),

@@ -29,9 +29,7 @@ userController.getUserCrypto = async (req, res, next) => {
         .populate(populate)
         .lean();
       return res.status(httpStatus.OK).json(data);
-      // let data = await otherHelper.getQuerySendResponse(userSch, page, size, sortQuery, searchQuery, selectQuery, next, populate);
-      // return otherHelper.paginationSendResponse(res, httpStatus.OK, true, data, 'User Crypto Get Success', page, size, data.totaldata,sortQuery);
-    } catch (err) {
+       } catch (err) {
       next(err);
     }
   };
@@ -40,8 +38,6 @@ userController.getUserCrypto = async (req, res, next) => {
     try {
       const crypto = req.body;
       const id = req.user.id;
-      console.log(id, crypto.id,crypto.point,'9855')
-      // const user = await userSch.findOne({ _id:id });
       const isUserfound = await userSch.findOne({
         $and: [
           { _id: id }, 
@@ -66,8 +62,7 @@ userController.getUserCrypto = async (req, res, next) => {
           },
           { new:true }
           )
-      // return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, 'Crypto update success', null);
-
+      
       }else {
          update = await userSch.findOneAndUpdate(
           { _id: id },
@@ -80,13 +75,10 @@ userController.getUserCrypto = async (req, res, next) => {
             }
           },
           { new: true })
-      // return otherHelper.sendResponse(res, httpStatus.OK, true, update, null, 'Crypto update success', null);
-
+     
       }
- // Calculate total_points by summing up points from cryptoList
  const totalPoints = update.cryptoList.reduce((total, cryptoItem) => total + cryptoItem.point, 0);
 
- // Update total_points in the user document
  update = await userSch.findOneAndUpdate(
    { _id: id },
    {
@@ -190,17 +182,14 @@ userController.getUserCrypto = async (req, res, next) => {
 
   userController.exchangeCryptoPoints = async(req,res,next) => {
     try{
-      // const id = req.params.userid;
       const { fromCryptoId, toCryptoId, points } = req.body;
       const id = req.user.id;
 
-      // Fetch the user
     const user = await userSch.findById(id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     
-     // Find the index of the fromCrypto in user's cryptoList
      const fromCryptoIndex = user.cryptoList.findIndex(
       (crypto) => crypto.crypto.toString() === fromCryptoId
     );
@@ -211,13 +200,10 @@ userController.getUserCrypto = async (req, res, next) => {
     if(user.cryptoList[fromCryptoIndex].point == points) {
       user.cryptoList = user.cryptoList.filter(item => item.crypto.toString() !== fromCryptoId);
 
-    console.log('equal')
-      // return res.status(400).json({ error: 'exchange coin greater than existing coin' });
-    }else {
+       }else {
       user.cryptoList[fromCryptoIndex].point -= parseFloat(points);
 
     }
-     // Find the index of the toCrypto in user's cryptoList
      const toCryptoIndex = user.cryptoList.findIndex(
       (crypto) => crypto.crypto.toString() === toCryptoId
     );
@@ -228,7 +214,6 @@ userController.getUserCrypto = async (req, res, next) => {
       user.cryptoList[toCryptoIndex].point = user.cryptoList[toCryptoIndex].point + parseFloat(points);
       
     }
-    // Save the updated user
     await user.save();
 
     res.json({ message: 'Crypto exchange successful', user });

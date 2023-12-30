@@ -8,7 +8,6 @@ import {
     call,
   } from 'redux-saga/effects';
   import Api from '../../utils/Api';
-//   import { LOCATION_CHANGE, push } from 'connected-react-router';
   import * as types from './constants';
   import * as actions from './actions';
   import { makeSelectEmail, makeSelectPassword } from './selectors';
@@ -21,7 +20,6 @@ import {
   } from '../App/actions';
   import {  enqueueSnackbar } from 'notistack'
 
-//   import { makeSelectReferralCode } from '../App/selectors';
   
   // Individual exports for testing
   export const validate = data => {
@@ -40,21 +38,7 @@ import {
     const { token, data } = payload;
     yield put(setUser(data));
     yield put(setToken(token));
-    // yield put(setReferralCode(''));
-    // TODO
-   
-    // if (redirects) {
-    //   yield put(push(redirects));
-    // } else {
-    //   // redirect the user if he/she is only in '.../account'
-    //   const val = window.location.href.split('/');
-
-    //   if (val[val.length - 1] == 'account') {
-    //     // yield put(push('/'));
-    //   console.log('####')
-      
-    //   }
-    // }
+    
   }
   
   export function* loginAction(action) {

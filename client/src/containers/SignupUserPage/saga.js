@@ -31,7 +31,6 @@ import {Link} from 'react-router-dom'
   };
   
   export function* redirectOnSuccess(redirect) {
-    console.log('registersucessssss')
 
     const { payload } = yield take([
       types.SIGNUP_SUCCESS,
@@ -39,15 +38,7 @@ import {Link} from 'react-router-dom'
     const { token, data } = payload;
     yield put(setUser(data));
     yield put(setToken(token));
-    // if (redirect) {
-    //   yield put(push(redirect));
-    // } else {
-    //   // redirect the user if he/she is only in '.../account'
-    //   const val = window.location.href.split('/');
-    //   if (val[val.length - 1] == 'account') {
-    //     yield put(push('/'));
-    //   }
-    // }
+    
   }
   
   export function* signupAction(action) {
